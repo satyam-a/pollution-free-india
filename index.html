@@ -199,11 +199,9 @@
                 currentAQI -= slider.drop;
                 slider.label.innerText = "ACTIVE";
                 slider.label.style.color = "#4caf50";
-                slider.element.style.background = "#4caf50";
             } else {
                 slider.label.innerText = "OFF";
                 slider.label.style.color = "#aaa";
-                slider.element.style.background = "#333";
             }
         });
 
@@ -219,7 +217,7 @@
             aqiStatus.innerText = "Poor / Very Poor";
             aqiBox.style.backgroundColor = "rgba(255, 152, 0, 0.2)";
             aqiBox.style.border = "2px solid #ff9800";
-            aqiValue.style.color = #ff9800";
+            aqiValue.style.color = "#ff9800";
         } else if (currentAQI > 100) {
             aqiStatus.innerText = "Moderate";
             aqiBox.style.backgroundColor = "rgba(255, 235, 59, 0.15)";
