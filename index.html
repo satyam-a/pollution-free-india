@@ -94,7 +94,6 @@
             background: rgba(0, 176, 255, 0.15);
             border-color: #00b0ff;
         }
-        
         .policy-row {
             display: flex;
             justify-content: space-between;
@@ -116,18 +115,12 @@
             margin-bottom: 4px;
             display: block;
         }
-        .status-wrapper {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
         .status-badge {
             font-size: 11px;
             font-weight: 800;
             letter-spacing: 0.5px;
             color: var(--text-sub);
         }
-
         .switch {
             position: relative;
             display: inline-block;
@@ -169,7 +162,6 @@
         input:checked + .slider-toggle:before {
             transform: translateX(22px);
         }
-
         .share-btn {
             display: block;
             width: 100%;
@@ -202,7 +194,8 @@
         <div class="aqi-status" id="aqiStatus">Severe Crisis</div>
     </div>
 
-    <a href="https://github.com" class="policy-link-btn" id="policyLink" target="_blank">
+    <!-- FIXED: Connected directly to the project's README file automatically -->
+    <a href="README.md" class="policy-link-btn" id="policyLink" target="_blank">
         📖 Read Full 5-Point Policy Blueprint ➔
     </a>
 
@@ -215,7 +208,7 @@
             </div>
         </div>
         <label class="switch">
-            <input type="checkbox" id="p1">
+            <input type="checkbox" id="p1" onchange="calculateAQI()">
             <span class="slider-toggle"></span>
         </label>
     </div>
@@ -229,7 +222,7 @@
             </div>
         </div>
         <label class="switch">
-            <input type="checkbox" id="p2">
+            <input type="checkbox" id="p2" onchange="calculateAQI()">
             <span class="slider-toggle"></span>
         </label>
     </div>
@@ -243,7 +236,7 @@
             </div>
         </div>
         <label class="switch">
-            <input type="checkbox" id="p3">
+            <input type="checkbox" id="p3" onchange="calculateAQI()">
             <span class="slider-toggle"></span>
         </label>
     </div>
@@ -257,7 +250,7 @@
             </div>
         </div>
         <label class="switch">
-            <input type="checkbox" id="p4">
+            <input type="checkbox" id="p4" onchange="calculateAQI()">
             <span class="slider-toggle"></span>
         </label>
     </div>
@@ -271,7 +264,7 @@
             </div>
         </div>
         <label class="switch">
-            <input type="checkbox" id="p5">
+            <input type="checkbox" id="p5" onchange="calculateAQI()">
             <span class="slider-toggle"></span>
         </label>
     </div>
@@ -280,34 +273,85 @@
 </div>
 
 <script>
-    const toggles = [
-        { element: document.getElementById('p1'), label: document.getElementById('p1Val'), drop: 160 },
-        { element: document.getElementById('p2'), label: document.getElementById('p2Val'), drop: 75 },
-        { element: document.getElementById('p3'), label: document.getElementById('p3Val'), drop: 55 },
-        { element: document.getElementById('p4'), label: document.getElementById('p4Val'), drop: 25 },
-        { element: document.getElementById('p5'), label: document.getElementById('p5Val'), drop: 55 }
-    ];
-
-    const aqiValue = document.getElementById('aqiValue');
-    const aqiStatus = document.getElementById('aqiStatus');
-    const aqiBox = document.getElementById('aqiBox');
-    const whatsappShare = document.getElementById('whatsappShare');
-
-    function updateSimulator() {
+    function calculateAQI() {
         let currentAQI = 450;
+        
+        const check1 = document.getElementById('p1');
+        const check2 = document.getElementById('p2');
+        const check3 = document.getElementById('p3');
+        const check4 = document.getElementById('p4');
+        const check5 = document.getElementById('p5');
 
-        toggles.forEach(toggle => {
-            if (toggle.element.checked) {
-                currentAQI -= toggle.drop;
-                toggle.label.innerText = "ACTIVE";
-                toggle.label.style.color = "var(--accent-green)";
-            } else {
-                toggle.label.innerText = "Toggle Right ➔ OFF";
-                toggle.label.style.color = "var(--text-sub)";
-            }
-        });
+        const label1 = document.getElementById('p1Val');
+        const label2 = document.getElementById('p2Val');
+        const label3 = document.getElementById('p3Val');
+        const label4 = document.getElementById('p4Val');
+        const label5 = document.getElementById('p5Val');
 
-        // Set the final calculated AQI text directly
+        if (check1.checked) { currentAQI -= 160; label1.innerText = "ACTIVE"; label1.style.color = "var(--accent-green)"; }
+        else { label1.innerText = "Toggle Right ➔ OFF"; label1.style.color = "var(--text-sub)"; }
+
+        if (check2.checked) { currentAQI -= 75; label2.innerText = "ACTIVE"; label2.style.color = "var(--accent-green)"; }
+        else { label2.innerText = "Toggle Right ➔ OFF"; label2.style.color = "var(--text-sub)"; }
+
+        if (check3.checked) { currentAQI -= 55; label3.innerText = "ACTIVE"; label3.style.color = "var(--accent-green)"; }
+        else { label3.innerText = "Toggle Right ➔ OFF"; label3.style.color = "var(--text-sub)"; }
+
+            if (check4.checked) { 
+        currentAQI -= 25; 
+        label4.innerText = "ACTIVE"; 
+        label4.style.color = "var(--accent-green)"; 
+        } else { 
+            label4.innerText = "Toggle Right ➔ OFF"; 
+            label4.style.color = "var(--text-sub)"; 
+        }
+
+        if (check5.checked) { 
+            currentAQI -= 55; 
+            label5.innerText = "ACTIVE"; 
+            label5.style.color = "var(--accent-green)"; 
+        } else { 
+            label5.innerText = "Toggle Right ➔ OFF"; 
+            label5.style.color = "var(--text-sub)"; 
+        }
+
+        const aqiValue = document.getElementById('aqiValue');
+        const aqiStatus = document.getElementById('aqiStatus');
+        const aqiBox = document.getElementById('aqiBox');
+        
         aqiValue.innerText = currentAQI;
 
-        // Force full tier updates
+        if (currentAQI > 300) {
+            aqiStatus.innerText = "Severe Crisis";
+            aqiValue.style.color = "var(--accent-red)";
+            aqiBox.style.background = "rgba(255, 61, 0, 0.08)";
+            aqiBox.style.borderColor = "rgba(255, 61, 0, 0.3)";
+        } else if (currentAQI > 200) {
+            aqiStatus.innerText = "Poor / Very Poor";
+            aqiValue.style.color = "var(--accent-orange)";
+            aqiBox.style.background = "rgba(255, 145, 0, 0.08)";
+            aqiBox.style.borderColor = "rgba(255, 145, 0, 0.3)";
+        } else if (currentAQI > 100) {
+            aqiStatus.innerText = "Moderate";
+            aqiValue.style.color = "#ffeb3b";
+            aqiBox.style.background = "rgba(255, 235, 59, 0.06)";
+            aqiBox.style.borderColor = "rgba(255, 235, 59, 0.2)";
+        } else {
+            aqiStatus.innerText = "Satisfactory Safety Zone";
+            aqiValue.style.color = "var(--accent-green)";
+            aqiBox.style.background = "rgba(0, 230, 118, 0.08)";
+            aqiBox.style.borderColor = "rgba(0, 230, 118, 0.3)";
+        }
+
+        // FIXED: Re-engineered dynamic string injection to open clean WhatsApp Chat API directly
+        const pageUrl = window.location.href;
+        const whatsappShare = document.getElementById('whatsappShare');
+        const messageString = "🚨 CAN WE ACTUALLY FIX THE AIR CRISIS? 🚨\n\nI just simulated a synchronized 5-Point Plan on my phone and dropped winter peak toxic emissions from AQI 450 down to a clean " + currentAQI + "!\n\nTest the data model live, activate the policy toggles, and share your strategy here:\n👉 " + pageUrl;
+        
+        whatsappShare.href = "https://whatsapp.com" + encodeURIComponent(messageString);
+    }
+
+    calculateAQI();
+</script>
+</body>
+</html>
