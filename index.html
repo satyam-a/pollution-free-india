@@ -56,7 +56,7 @@
             text-align: center;
             padding: 25px;
             border-radius: 20px;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             background: rgba(255, 255, 255, 0.02);
             border: 1px solid rgba(255, 255, 255, 0.05);
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -74,6 +74,30 @@
             text-transform: uppercase;
             letter-spacing: 1.5px;
             margin-top: 10px;
+        }
+        .policy-link-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            background: rgba(0, 176, 255, 0.08);
+            color: #00b0ff;
+            border: 1px solid rgba(0, 176, 255, 0.3);
+            padding: 12px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
+        .policy-link-btn:hover {
+            background: rgba(0, 176, 255, 0.15);
+            border-color: #00b0ff;
+            box-shadow: 0 0 15px rgba(0, 176, 255, 0.15);
         }
         .slider-group {
             margin-bottom: 24px;
@@ -178,6 +202,11 @@
         <div class="aqi-status" id="aqiStatus">Severe Crisis</div>
     </div>
 
+    <!-- Clickable Policy Link Button -->
+    <a href="https://github.com" class="policy-link-btn" id="policyLink" target="_blank">
+        📖 Read Full 5-Point Policy Blueprint ➔
+    </a>
+
     <!-- Policy 1 -->
     <div class="slider-group">
         <div class="slider-label">
@@ -257,25 +286,3 @@
         { element: document.getElementById('p2'), label: document.getElementById('p2Val'), hint: document.getElementById('p2Hint'), drop: 75 },
         { element: document.getElementById('p3'), label: document.getElementById('p3Val'), hint: document.getElementById('p3Hint'), drop: 55 },
         { element: document.getElementById('p4'), label: document.getElementById('p4Val'), hint: document.getElementById('p4Hint'), drop: 25 },
-        { element: document.getElementById('p5'), label: document.getElementById('p5Val'), hint: document.getElementById('p5Hint'), drop: 55 }
-    ];
-
-    const aqiValue = document.getElementById('aqiValue');
-    const aqiStatus = document.getElementById('aqiStatus');
-    const aqiBox = document.getElementById('aqiBox');
-    const whatsappShare = document.getElementById('whatsappShare');
-
-    function updateSimulator() {
-        let currentAQI = 450;
-
-        sliders.forEach(slider => {
-            if (slider.element.value === "1") {
-                currentAQI -= slider.drop;
-                slider.label.innerText = "ACTIVE";
-                slider.label.style.color = "var(--accent-green)";
-                slider.element.style.background = "var(--accent-green)";
-                slider.hint.style.opacity = "0"; // Hide "Slide Right" when active
-            } else {
-                slider.label.innerText = "OFF";
-                slider.label.style.color = "var(--text-sub)";
-                slider.element.style.background = "var(--slider-track)";
