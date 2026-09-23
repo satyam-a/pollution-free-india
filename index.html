@@ -121,18 +121,11 @@
             align-items: center;
             gap: 6px;
         }
-        .instruction-tag {
-            font-size: 11px;
-            font-weight: 700;
-            color: var(--text-sub);
-            background: rgba(255, 255, 255, 0.04);
-            padding: 2px 6px;
-            border-radius: 4px;
-        }
         .status-badge {
             font-size: 11px;
             font-weight: 800;
             letter-spacing: 0.5px;
+            color: var(--text-sub);
         }
 
         .switch {
@@ -218,8 +211,7 @@
         <div class="policy-info">
             <span class="policy-name">1. Stubble Biomass Incentives</span>
             <div class="status-wrapper">
-                <span class="instruction-tag" id="p1Hint">Toggle Right ➔</span>
-                <span class="status-badge" id="p1Val">OFF</span>
+                <span class="status-badge" id="p1Val">Toggle Right ➔ OFF</span>
             </div>
         </div>
         <label class="switch">
@@ -233,8 +225,7 @@
         <div class="policy-info">
             <span class="policy-name">2. WFH & Free Mass Transit</span>
             <div class="status-wrapper">
-                <span class="instruction-tag" id="p2Hint">Toggle Right ➔</span>
-                <span class="status-badge" id="p2Val">OFF</span>
+                <span class="status-badge" id="p2Val">Toggle Right ➔ OFF</span>
             </div>
         </div>
         <label class="switch">
@@ -248,8 +239,7 @@
         <div class="policy-info">
             <span class="policy-name">3. Industrial PNG Conversion</span>
             <div class="status-wrapper">
-                <span class="instruction-tag" id="p3Hint">Toggle Right ➔</span>
-                <span class="status-badge" id="p3Val">OFF</span>
+                <span class="status-badge" id="p3Val">Toggle Right ➔ OFF</span>
             </div>
         </div>
         <label class="switch">
@@ -263,8 +253,7 @@
         <div class="policy-info">
             <span class="policy-name">4. Urban Bio-Shields & Pillars</span>
             <div class="status-wrapper">
-                <span class="instruction-tag" id="p4Hint">Toggle Right ➔</span>
-                <span class="status-badge" id="p4Val">OFF</span>
+                <span class="status-badge" id="p4Val">Toggle Right ➔ OFF</span>
             </div>
         </div>
         <label class="switch">
@@ -278,8 +267,7 @@
         <div class="policy-info">
             <span class="policy-name">5. Construction Pauses & Sweeping</span>
             <div class="status-wrapper">
-                <span class="instruction-tag" id="p5Hint">Toggle Right ➔</span>
-                <span class="status-badge" id="p5Val">OFF</span>
+                <span class="status-badge" id="p5Val">Toggle Right ➔ OFF</span>
             </div>
         </div>
         <label class="switch">
@@ -293,12 +281,33 @@
 
 <script>
     const toggles = [
-        { element: document.getElementById('p1'), label: document.getElementById('p1Val'), hint: document.getElementById('p1Hint'), drop: 160 },
-        { element: document.getElementById('p2'), label: document.getElementById('p2Val'), hint: document.getElementById('p2Hint'), drop: 75 },
-        { element: document.getElementById('p3'), label: document.getElementById('p3Val'), hint: document.getElementById('p3Hint'), drop: 55 },
-        { element: document.getElementById('p4'), label: document.getElementById('p4Val'), hint: document.getElementById('p4Hint'), drop: 25 },
-        { element: document.getElementById('p5'), label: document.getElementById('p5Val'), hint: document.getElementById('p5Hint'), drop: 55 }
+        { element: document.getElementById('p1'), label: document.getElementById('p1Val'), drop: 160 },
+        { element: document.getElementById('p2'), label: document.getElementById('p2Val'), drop: 75 },
+        { element: document.getElementById('p3'), label: document.getElementById('p3Val'), drop: 55 },
+        { element: document.getElementById('p4'), label: document.getElementById('p4Val'), drop: 25 },
+        { element: document.getElementById('p5'), label: document.getElementById('p5Val'), drop: 55 }
     ];
 
     const aqiValue = document.getElementById('aqiValue');
     const aqiStatus = document.getElementById('aqiStatus');
+    const aqiBox = document.getElementById('aqiBox');
+    const whatsappShare = document.getElementById('whatsappShare');
+
+    function updateSimulator() {
+        let currentAQI = 450;
+
+        toggles.forEach(toggle => {
+            if (toggle.element.checked) {
+                currentAQI -= toggle.drop;
+                toggle.label.innerText = "ACTIVE";
+                toggle.label.style.color = "var(--accent-green)";
+            } else {
+                toggle.label.innerText = "Toggle Right ➔ OFF";
+                toggle.label.style.color = "var(--text-sub)";
+            }
+        });
+
+        // Set the final calculated AQI text directly
+        aqiValue.innerText = currentAQI;
+
+        // Force full tier updates
