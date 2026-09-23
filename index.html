@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mission Pollution-Free India: AQI Simulator</title>
+    <style>
+        :root {
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --accent-green: #4caf50;
+            --accent-orange: #ff9800;
+            --accent-red: #f44336;
+            --text-color: #ffffff;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        .container {
+            max-width: 500px;
+            width: 100%;
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+        }
+        h1 {
+            font-size: 24px;
+            text-align: center;
+            margin-bottom: 5px;
+            color: var(--accent-green);
+        }
+        .subtitle {
+            text-align: center;
+            font-size: 14px;
+            color: #aaa;
+            margin-bottom: 25px;
+        }
+        .aqi-display-box {
+            text-align: center;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            transition: all 0.3s ease;
+        }
+        .aqi-value {
+            font-size: 64px;
+            font-weight: 800;
+            margin: 0;
+        }
+        .aqi-status {
+            font-size: 18px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 5px;
+        }
+        .slider-group {
+            margin-bottom: 20px;
+        }
+        .slider-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        .slider-label span:last-child {
+            color: #aaa;
+            font-weight: bold;
+            transition: color 0.2s;
+        }
+        input[type=range] {
+            width: 100%;
+            -webkit-appearance: none;
+            background: #333;
+            height: 8px;
+            border-radius: 4px;
+            outline: none;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: #666;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+        }
+        input[type=range]:active::-webkit-slider-thumb {
+            transform: scale(1.2);
+        }
+        .share-btn {
+            display: block;
+            width: 100%;
+            background: #25D366;
+            color: white;
+            text-align: center;
+            padding: 14px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 16px;
+            margin-top: 30px;
+            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-sizing: border-box;
+        }
+        .share-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(37, 211, 102, 0.4);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🇮🇳 Pollution-Free India</h1>
+    <div class="subtitle">Citizen Policy Impact Simulator</div>
+
+    <div class="aqi-display-box" id="aqiBox">
+        <div class="aqi-value" id="aqiValue">450</div>
+        <div class="aqi-status" id="aqiStatus">Severe Crisis</div>
+    </div>
+
+    <!-- Policy 1 -->
+    <div class="slider-group">
+        <div class="slider-label">
+            <span>1. Stubble Biomass Incentives</span>
+            <span id="p1Val">Off</span>
+        </div>
+        <input type="range" id="p1" min="0" max="1" value="0" step="1">
+    </div>
+
+    <!-- Policy 2 -->
+    <div class="slider-group">
+        <div class="slider-label">
+            <span>2. 50% Corporate WFH & Free Transit</span>
+            <span id="p2Val">Off</span>
+        </div>
+        <input type="range" id="p2" min="0" max="1" value="0" step="1">
+    </div>
+
+    <!-- Policy 3 -->
+    <div class="slider-group">
+        <div class="slider-label">
+            <span>3. Industrial PNG Fuel Transition</span>
+            <span id="p3Val">Off</span>
+        </div>
+        <input type="range" id="p3" min="0" max="1" value="0" step="1">
+    </div>
+
+    <!-- Policy 4 -->
+    <div class="slider-group">
+        <div class="slider-label">
+            <span>4. Urban Bio-Shields & Pillars</span>
+            <span id="p4Val">Off</span>
+        </div>
+        <input type="range" id="p4" min="0" max="1" value="0" step="1">
+    </div>
+
+    <!-- Policy 5 -->
+    <div class="slider-group">
+        <div class="slider-label">
+            <span>5. Construction Pauses & Sweeping</span>
+            <span id="p5Val">Off</span>
+        </div>
+        <input type="range" id="p5" min="0" max="1" value="0" step="1">
+    </div>
+
+    <a href="#" class="share-btn" id="whatsappShare" target="_blank">Share My Strategy on WhatsApp 💬</a>
+</div>
+
+<script>
+    const sliders = [
+        { element: document.getElementById('p1'), label: document.getElementById('p1Val'), drop: 160 },
+        { element: document.getElementById('p2'), label: document.getElementById('p2Val'), drop: 75 },
+        { element: document.getElementById('p3'), label: document.getElementById('p3Val'), drop: 55 },
+        { element: document.getElementById('p4'), label: document.getElementById('p4Val'), drop: 25 },
+        { element: document.getElementById('p5'), label: document.getElementById('p5Val'), drop: 55 }
+    ];
+
+    const aqiValue = document.getElementById('aqiValue');
+    const aqiStatus = document.getElementById('aqiStatus');
+    const aqiBox = document.getElementById('aqiBox');
+    const whatsappShare = document.getElementById('whatsappShare');
+
+    function updateSimulator() {
+        let currentAQI = 450;
+
+        sliders.forEach(slider => {
+            if (slider.element.value === "1") {
+                currentAQI -= slider.drop;
+                slider.label.innerText = "ACTIVE";
+                slider.label.style.color = "#4caf50";
+                slider.element.style.background = "#4caf50";
+            } else {
+                slider.label.innerText = "OFF";
+                slider.label.style.color = "#aaa";
+                slider.element.style.background = "#333";
+            }
+        });
+
+        aqiValue.innerText = currentAQI;
+
+        // Dynamic Styling based on Indian AQI standards
+        if (currentAQI > 300) {
+            aqiStatus.innerText = "Severe Crisis";
+            aqiBox.style.backgroundColor = "rgba(244, 67, 54, 0.2)";
+            aqiBox.style.border = "2px solid #f44336";
+            aqiValue.style.color = "#f44336";
+        } else if (currentAQI > 200) {
+            aqiStatus.innerText = "Poor / Very Poor";
+            aqiBox.style.backgroundColor = "rgba(255, 152, 0, 0.2)";
+            aqiBox.style.border = "2px solid #ff9800";
+            aqiValue.style.color = #ff9800";
+        } else if (currentAQI > 100) {
+            aqiStatus.innerText = "Moderate";
+            aqiBox.style.backgroundColor = "rgba(255, 235, 59, 0.15)";
+            aqiBox.style.border = "2px solid #ffeb3b";
+            aqiValue.style.color = "#ffeb3b";
+        } else {
+            aqiStatus.innerText = "Satisfactory Safety Zone";
+            aqiBox.style.backgroundColor = "rgba(76, 175, 80, 0.2)";
+            aqiBox.style.border = "2px solid #4caf50";
+            aqiValue.style.color = "#4caf50";
+        }
+
+        // Auto-generate share text with live performance metrics
+        const pageUrl = window.location.href;
+        const textMessage = encodeURIComponent(`🚨 CAN WE ACTUALLY FIX THE AIR CRISIS? 🚨\n\nI just simulated a synchronized 5-Point Plan on my phone and dropped winter peak toxic emissions from AQI 450 down to a clean ${currentAQI}!\n\nTest the data model live, move the policy sliders, and share your strategy here:\n👉 ${pageUrl}`);
+        whatsappShare.href = `https://whatsapp.com{textMessage}`;
+    }
+
+    sliders.forEach(slider => {
+        slider.element.addEventListener('input', updateSimulator);
+    });
+
+    // Initialize layout status
+    updateSimulator();
+</script>
+
+</body>
+</html>
